@@ -1,0 +1,23 @@
+version: '3.5'
+services:
+  authorApi:
+    image: malejandro13/nginx-php73-dev:latest
+    container_name: authorApi
+    volumes:
+      - ./authorApi/:/var/www/html
+    ports:
+      - 8000:80
+  bookApi:
+    image: malejandro13/nginx-php73-dev:latest
+    container_name: bookApi
+    volumes: 
+      - ./bookApi/:/var/www/html
+    ports: 
+      - 8001:80
+  apiGateway:
+    image: malejandro13/nginx-php73-dev:latest
+    container_name: apiGateway
+    volumes: 
+      - ./apiGateway/:/var/www/html
+    ports: 
+      - 8002:80
