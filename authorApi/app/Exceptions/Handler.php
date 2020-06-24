@@ -5,6 +5,7 @@ namespace App\Exceptions;
 use Throwable;
 use App\Traits\ApiResponse;
 use Illuminate\Http\Response;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -67,6 +68,10 @@ class Handler extends ExceptionHandler
         }
 
         if($exception instanceof AuthorizationException){
+            return $this->errorResponse($exception->getMessage(), Response::HTTP_FORBIDDEN);
+        }
+
+        if($exception instanceof AuthenticationException){
             return $this->errorResponse($exception->getMessage(), Response::HTTP_UNAUTHORIZED);
         }
 

@@ -1,32 +1,40 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Traits\ApiResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use App\Services\BookService;
+use App\Services\AuthorService;
+use Illuminate\Http\Response;
 
 class BookController extends Controller
 {
     use ApiResponse;
     /**
      * The service to consume the book service
-     * @var BookService
+     * @var BookService 
      */
     protected $bookService;
 
     /**
+     * The service to consume the author service
+     * @var AuthorService
+     */
+    protected $authorService;
+
+    /**
      * Create a new controller instance.
-     *
      * @return void
      */
-    public function __construct(BookService $bookService)
+    public function __construct(BookService $bookService, AuthorService $authorService)
     {
         $this->bookService = $bookService;
+        $this->authorService = $authorService;
     }
 
     /** A CONTINUCIÓN SE CREAN TODOS LOS MÉDODOS DEL CRUD, 
-    * ESTA ES LA API GATEWAY QUE CONSUMIRÁ LOS SERVICIOS DE AUTHOR Y BOOKS CREADOS ANTERIORMENTE
+    * ESTA ES LA API GATEWAY QUE CONSUMIRÁ LOS SERVICIOS BOOKS CREADOS ANTERIORMENTE
     */
      
     /**
@@ -45,6 +53,8 @@ class BookController extends Controller
     
     public function store(Request $request)
     {
+        //validamos que el id de autor exista
+        $this->authorService->obtainAuthor($request->author_id); //si esto da satisfactorio se ejecuta la línea sgte
         return $this->successResponse($this->bookService->createBook($request->all()), Response::HTTP_CREATED);
     }
 
@@ -64,7 +74,8 @@ class BookController extends Controller
      */
 
     public function update(Request $request, $book)
-    {
+    { 
+        $this->authorService->obtainAuthor($request->author_id);
         return $this->successResponse($this->bookService->editBook($request->all(), $book));
     }
 

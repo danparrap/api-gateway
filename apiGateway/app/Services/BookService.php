@@ -1,6 +1,7 @@
 <?php
 //namespace entrega una ruta directa a los archivos que necesitará
 namespace App\Services;
+
 use App\Traits\ConsumesExternalService; //llama a la ruta directa declarada antes
 
 class BookService
