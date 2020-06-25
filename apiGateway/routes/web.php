@@ -11,7 +11,7 @@
 |
 */
 
-$router->group(['middleware' => 'client.credentials'], function() use($router){
+$router->group(['middleware' => 'auth:api'], function() use($router){
     //SE COPIAN Y PEGAN LAS RUTAS DE AMBOS SERVICIOS
     $router->get('/authors', 'AuthorController@index');
     $router->post('/authors', 'AuthorController@store');
@@ -26,4 +26,13 @@ $router->group(['middleware' => 'client.credentials'], function() use($router){
     $router->put('/books/{book}','BookController@update');
     $router->patch('/books/{book}','BookController@update');
     $router->delete('/books/{book}','BookController@destroy');
+
+    $router->get('/users','UserController@index');
+    $router->post('/users','UserController@store');
+    $router->get('/users/{user}','uController@show');
+    $router->put('/users/{user}','UserController@update');
+    $router->patch('/users/{user}','UserController@update');
+    $router->delete('/users/{user}','UserController@destroy');
+
+    $router->get('users/me','UserController@me');
 });
